@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pantalla 1: formulario con los datos del usuario -->
+<!-- El id "main" lo usa MainActivity para dejar margen con la barra de estado -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/titulo_ficha"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Nombre -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_nombre"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="name"
+        android:hint="@string/hint_nombre"
+        android:inputType="textPersonName|textCapWords" />
+
+    <!-- Apellidos -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_apellidos"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etApellidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="name"
+        android:hint="@string/hint_apellidos"
+        android:inputType="textPersonName|textCapWords" />
+
+    <!-- Edad: inputType="number" hace que salga el teclado numérico -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_edad"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etEdad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_edad"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <!-- Matriculado -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_matriculado"
+        android:textStyle="bold" />
+
+    <!-- RadioGroup agrupa los RadioButton: así solo se puede marcar uno -->
+    <RadioGroup
+        android:id="@+id/rgMatriculado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opcion_si" />
+
+        <RadioButton
+            android:id="@+id/rbNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/opcion_no" />
+    </RadioGroup>
+
+    <!-- Aquí se muestra si se ha aceptado la política al volver de la pantalla 2 -->
+    <TextView
+        android:id="@+id/tvEstadoPrivacidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/privacidad_pendiente"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnMostrarInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_mostrar_info" />
+
+</LinearLayout>
