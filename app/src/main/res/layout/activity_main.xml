@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Pantalla 1: formulario con los datos del usuario -->
-<!-- El id "main" lo usa MainActivity para dejar margen con la barra de estado -->
+<!-- LinearLayout vertical: coloca los elementos uno debajo del otro -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -9,68 +9,60 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/txtTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/titulo_ficha"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="22sp" />
 
     <!-- Nombre -->
     <TextView
+        android:id="@+id/txtLabelNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_nombre"
-        android:textStyle="bold" />
+        android:layout_marginTop="16dp"
+        android:text="@string/label_nombre" />
 
     <EditText
-        android:id="@+id/etNombre"
+        android:id="@+id/edtNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="name"
-        android:hint="@string/hint_nombre"
-        android:inputType="textPersonName|textCapWords" />
+        android:inputType="textPersonName" />
 
     <!-- Apellidos -->
     <TextView
+        android:id="@+id/txtLabelApellidos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_apellidos"
-        android:textStyle="bold" />
+        android:text="@string/label_apellidos" />
 
     <EditText
-        android:id="@+id/etApellidos"
+        android:id="@+id/edtApellidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="name"
-        android:hint="@string/hint_apellidos"
-        android:inputType="textPersonName|textCapWords" />
+        android:inputType="textPersonName" />
 
-    <!-- Edad: inputType="number" hace que salga el teclado numérico -->
+    <!-- Edad: inputType="number" hace que salga el teclado numérico
+         y maxLength="3" no deja escribir más de 3 cifras -->
     <TextView
+        android:id="@+id/txtLabelEdad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_edad"
-        android:textStyle="bold" />
+        android:text="@string/label_edad" />
 
     <EditText
-        android:id="@+id/etEdad"
+        android:id="@+id/edtEdad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_edad"
-        android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="3" />
 
     <!-- Matriculado -->
     <TextView
+        android:id="@+id/txtLabelMatriculado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_matriculado"
-        android:textStyle="bold" />
+        android:text="@string/label_matriculado" />
 
     <!-- RadioGroup agrupa los RadioButton: así solo se puede marcar uno -->
     <RadioGroup
@@ -89,25 +81,22 @@
             android:id="@+id/rbNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="@string/opcion_no" />
     </RadioGroup>
 
-    <!-- Aquí se muestra si se ha aceptado la política al volver de la pantalla 2 -->
-    <TextView
-        android:id="@+id/tvEstadoPrivacidad"
+    <Button
+        android:id="@+id/btnMostrarInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/privacidad_pendiente"
-        android:textSize="16sp" />
+        android:text="@string/btn_mostrar_info" />
 
-    <Button
-        android:id="@+id/btnMostrarInfo"
+    <!-- Aquí se muestra si se ha aceptado la política al volver de la pantalla 2 -->
+    <TextView
+        android:id="@+id/txtPrivacidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:text="@string/btn_mostrar_info" />
+        android:text="@string/privacidad_pendiente" />
 
 </LinearLayout>

@@ -1,17 +1,16 @@
 package com.example.pe02_registreusuari;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -24,121 +23,97 @@ import androidx.core.view.WindowInsetsCompat;
  */
 public class MainActivity extends AppCompatActivity {
 
-    // Claves para identificar los datos dentro del Intent.
-    // Son "public static" para poder usarlas también desde DetalleActivity.
-    public static final String EXTRA_PERSONA = "persona";
-    public static final String EXTRA_ACEPTADO = "aceptado";
-
-    // Referencias a los elementos del layout
-    private EditText etNombre;
-    private EditText etApellidos;
-    private EditText etEdad;
-    private RadioGroup rgMatriculado;
-    private TextView tvEstadoPrivacidad;
-
-    // "Lanzador" que abre la pantalla 2 y espera a que nos devuelva un resultado.
-    // Es la forma actual de hacerlo (sustituye al antiguo startActivityForResult).
-    private final ActivityResultLauncher<Intent> lanzadorDetalle =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), resultado -> {
-                // Este código se ejecuta cuando volvemos de la pantalla 2.
-                // Comprobamos que ha vuelto con el botón "Salir" (RESULT_OK) y con datos.
-                if (resultado.getResultCode() == Activity.RESULT_OK && resultado.getData() != null) {
-                    // Leemos el true/false que nos ha enviado la pantalla 2
-                    boolean aceptado = resultado.getData().getBooleanExtra(EXTRA_ACEPTADO, false);
-
-                    if (aceptado) {
-                        tvEstadoPrivacidad.setText(R.string.privacidad_aceptada);
-                    } else {
-                        tvEstadoPrivacidad.setText(R.string.privacidad_no_aceptada);
-                    }
-                }
-            });
+    // Variables para los Views del layout
+    EditText edtNombre, edtApellidos, edtEdad;
+    RadioButton rbSi, rbNo;
+    TextView txtPrivacidad;
+    Button btnMostrarInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Código que pone Android Studio al crear la Activity:
+        // deja espacio para la barra de estado de arriba del móvil
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
-        // Deja espacio para la barra de estado y la de navegación del móvil
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Enlazamos las variables con las vistas del XML
-        etNombre = findViewById(R.id.etNombre);
-        etApellidos = findViewById(R.id.etApellidos);
-        etEdad = findViewById(R.id.etEdad);
-        rgMatriculado = findViewById(R.id.rgMatriculado);
-        tvEstadoPrivacidad = findViewById(R.id.tvEstadoPrivacidad);
-        Button btnMostrarInfo = findViewById(R.id.btnMostrarInfo);
+        // Referenciamos los Views del layout con findViewById
+        edtNombre = findViewById(R.id.edtNombre);
+        edtApellidos = findViewById(R.id.edtApellidos);
+        edtEdad = findViewById(R.id.edtEdad);
+        rbSi = findViewById(R.id.rbSi);
+        rbNo = findViewById(R.id.rbNo);
+        txtPrivacidad = findViewById(R.id.txtPrivacidad);
+        btnMostrarInfo = findViewById(R.id.btnMostrarInfo);
 
-        // Al pulsar el botón, validamos y abrimos la pantalla 2
-        btnMostrarInfo.setOnClickListener(v -> mostrarInfo());
+        // Listener del botón "Mostrar Info"
+        btnMostrarInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Leemos lo que ha escrito el usuario
+                String nombre = edtNombre.getText().toString();
+                String apellidos = edtApellidos.getText().toString();
+                String textoEdad = edtEdad.getText().toString();
+
+                // ---- VALIDACIONES ----
+                // Si falta algún dato mostramos un Toast y salimos con return
+                if (nombre.isEmpty()) {
+                    Toast.makeText(MainActivity.this, R.string.error_nombre, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (apellidos.isEmpty()) {
+                    Toast.makeText(MainActivity.this, R.string.error_apellidos, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (textoEdad.isEmpty()) {
+                    Toast.makeText(MainActivity.this, R.string.error_edad, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!rbSi.isChecked() && !rbNo.isChecked()) {
+                    Toast.makeText(MainActivity.this, R.string.error_matriculado, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Pasamos la edad de texto a número entero
+                int edad = Integer.parseInt(textoEdad);
+                // Si está marcado "Sí", matriculado será true; si no, false
+                boolean matriculado = rbSi.isChecked();
+
+                // ---- CREAMOS LA PERSONA Y LA ENVIAMOS ----
+                Persona p = new Persona(nombre, apellidos, edad, matriculado);
+
+                // Intent explícito: decimos qué Activity queremos abrir
+                Intent i = new Intent(MainActivity.this, DetalleActivity.class);
+                // Metemos la Persona en los extras (funciona porque es Serializable)
+                i.putExtra("persona", p);
+
+                // Abrimos la pantalla 2 y esperamos que nos devuelva un resultado.
+                // El 123 es el código para saber desde qué llamada volvemos.
+                startActivityForResult(i, 123);
+            }
+        });
     }
 
-    /**
-     * Valida los campos y, si todo está bien, crea una Persona
-     * y la envía a la pantalla 2 con un Intent explícito.
-     */
-    private void mostrarInfo() {
-        // trim() quita los espacios del principio y del final
-        String nombre = etNombre.getText().toString().trim();
-        String apellidos = etApellidos.getText().toString().trim();
-        String textoEdad = etEdad.getText().toString().trim();
+    // Se ejecuta automáticamente cuando volvemos de la pantalla 2
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        // ---- VALIDACIONES ----
-        // setError muestra un aviso rojo en el propio campo
-        if (nombre.isEmpty()) {
-            etNombre.setError(getString(R.string.error_nombre_vacio));
-            etNombre.requestFocus();
-            return; // salimos del método: no seguimos
+        // Comprobamos que volvemos de la llamada 123 y con el botón "Salir" (RESULT_OK)
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            // Leemos el true/false que nos envía la pantalla 2
+            boolean aceptado = data.getBooleanExtra("aceptado", false);
+
+            if (aceptado) {
+                txtPrivacidad.setText(R.string.privacidad_aceptada);
+            } else {
+                txtPrivacidad.setText(R.string.privacidad_no_aceptada);
+            }
         }
-
-        if (apellidos.isEmpty()) {
-            etApellidos.setError(getString(R.string.error_apellidos_vacio));
-            etApellidos.requestFocus();
-            return;
-        }
-
-        if (textoEdad.isEmpty()) {
-            etEdad.setError(getString(R.string.error_edad_vacia));
-            etEdad.requestFocus();
-            return;
-        }
-
-        // Convertimos el texto a número entero (int)
-        int edad = Integer.parseInt(textoEdad);
-        if (edad < 1 || edad > 120) {
-            etEdad.setError(getString(R.string.error_edad_rango));
-            etEdad.requestFocus();
-            return;
-        }
-
-        // getCheckedRadioButtonId() devuelve -1 si no hay ningún RadioButton marcado
-        int idMarcado = rgMatriculado.getCheckedRadioButtonId();
-        if (idMarcado == -1) {
-            // Un RadioGroup no tiene setError, así que usamos un Toast
-            Toast.makeText(this, R.string.error_matriculado, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        boolean matriculado = (idMarcado == R.id.rbSi);
-
-        // ---- CREAR EL OBJETO Y ENVIARLO ----
-        Persona persona = new Persona(nombre, apellidos, edad, matriculado);
-
-        // Intent explícito: indicamos exactamente qué Activity queremos abrir
-        Intent intent = new Intent(this, DetalleActivity.class);
-
-        // Metemos el objeto en un Bundle y el Bundle en los Extras del Intent.
-        // Funciona porque Persona implementa Serializable.
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(EXTRA_PERSONA, persona);
-        intent.putExtras(bundle);
-
-        // Abrimos la pantalla 2 esperando un resultado
-        lanzadorDetalle.launch(intent);
     }
 }

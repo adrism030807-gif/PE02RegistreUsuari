@@ -7,9 +7,6 @@
     <string name="label_apellidos">Apellidos:</string>
     <string name="label_edad">Edad:</string>
     <string name="label_matriculado">Matriculado:</string>
-    <string name="hint_nombre">Escribe tu nombre</string>
-    <string name="hint_apellidos">Escribe tus apellidos</string>
-    <string name="hint_edad">Escribe tu edad</string>
     <string name="opcion_si">Sí</string>
     <string name="opcion_no">No</string>
     <string name="btn_mostrar_info">Mostrar Info</string>
@@ -19,20 +16,14 @@
     <string name="privacidad_aceptada">Política de privacidad: ACEPTADA</string>
     <string name="privacidad_no_aceptada">Política de privacidad: NO aceptada</string>
 
-    <!-- Mensajes de error de las validaciones -->
-    <string name="error_nombre_vacio">El nombre es obligatorio</string>
-    <string name="error_apellidos_vacio">Los apellidos son obligatorios</string>
-    <string name="error_edad_vacia">La edad es obligatoria</string>
-    <string name="error_edad_rango">La edad debe estar entre 1 y 120</string>
+    <!-- Mensajes de error (Toast) -->
+    <string name="error_nombre">Tienes que escribir el nombre</string>
+    <string name="error_apellidos">Tienes que escribir los apellidos</string>
+    <string name="error_edad">Tienes que escribir la edad</string>
     <string name="error_matriculado">Indica si estás matriculado</string>
 
     <!-- Pantalla 2: detalle -->
-    <!-- %1$s = texto, %1$d = número entero. Se rellenan con getString(id, valor) -->
     <string name="titulo_detalle">Datos del usuario</string>
-    <string name="dato_nombre">Nombre: %1$s</string>
-    <string name="dato_apellidos">Apellidos: %1$s</string>
-    <string name="dato_edad">Edad: %1$d</string>
-    <string name="dato_matriculado">Matriculado: %1$s</string>
-    <string name="cb_privacidad">Acepto la política de confidencialidad</string>
+    <string name="chk_privacidad">Acepto la política de confidencialidad</string>
     <string name="btn_salir">Salir</string>
 </resources>

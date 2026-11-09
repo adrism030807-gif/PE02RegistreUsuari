@@ -1,61 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Pantalla 2: muestra los datos (NO editables) y la política de privacidad -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/detalle"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/txtTituloDetalle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/titulo_detalle"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="22sp" />
 
-    <!-- Usamos TextView (y no EditText) para que los datos no se puedan editar -->
+    <!-- Cada dato: una etiqueta (texto fijo) y un TextView con el valor.
+         Usamos TextView y no EditText para que no se puedan editar. -->
     <TextView
-        android:id="@+id/tvNombre"
-        android:layout_width="match_parent"
+        android:id="@+id/txtLabelNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_nombre" />
+
+    <TextView
+        android:id="@+id/txtNombre"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tvApellidos"
-        android:layout_width="match_parent"
+        android:id="@+id/txtLabelApellidos"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="@string/label_apellidos" />
+
+    <TextView
+        android:id="@+id/txtApellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tvEdad"
-        android:layout_width="match_parent"
+        android:id="@+id/txtLabelEdad"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="@string/label_edad" />
+
+    <TextView
+        android:id="@+id/txtEdad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tvMatriculado"
-        android:layout_width="match_parent"
+        android:id="@+id/txtLabelMatriculado"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="@string/label_matriculado" />
+
+    <TextView
+        android:id="@+id/txtMatriculado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="18sp" />
 
     <!-- Marcado = acepta la política. Sin marcar = no la acepta -->
     <CheckBox
-        android:id="@+id/cbPrivacidad"
+        android:id="@+id/chkPrivacidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/cb_privacidad" />
+        android:layout_marginTop="16dp"
+        android:text="@string/chk_privacidad" />
 
     <Button
         android:id="@+id/btnSalir"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:text="@string/btn_salir" />
 

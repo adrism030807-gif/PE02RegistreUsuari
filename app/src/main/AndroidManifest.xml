@@ -22,11 +22,10 @@
             </intent-filter>
         </activity>
 
-        <!-- Pantalla 2: no es "exported" porque solo la abre nuestra propia app -->
+        <!-- Pantalla 2: todas las Activities tienen que estar declaradas aquí -->
         <activity
             android:name=".DetalleActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:exported="false" />
     </application>
 
 </manifest>
